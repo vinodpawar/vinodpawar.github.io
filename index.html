@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-
-<!-- If you're reading this, welcome to the backstage 👀
-     Applause, boos, and feedback: contact@vinodpawar.com -->
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -84,6 +80,26 @@ p{margin:0 0 14px; max-width:56ch;}
 .app-row:last-child{border-bottom:none;}
 .app-name{font-size:16px;}
 .app-desc{color:var(--muted); font-size:14px; margin-top:2px;}
+
+.nav-links{flex-wrap:wrap; justify-content:flex-end; row-gap:8px;}
+.kv{display:flex; gap:16px; padding:6px 0;}
+.kv .k{flex:0 0 84px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); padding-top:3px;}
+.kv .v{flex:1; max-width:52ch;}
+.project-title{font-size:18px; margin:0 0 2px;}
+.project-sub{color:var(--muted); font-size:14px; margin:0 0 12px;}
+.term{border:1px solid var(--border); border-radius:8px; background:var(--bg); font-family:'IBM Plex Mono',monospace; font-size:13px;}
+.term-out{height:200px; overflow-y:auto; padding:12px 14px; line-height:1.65;}
+.term-line{white-space:pre-wrap; word-break:break-word;}
+.term-line.cmd{color:var(--muted);}
+.term-line.cmd b{color:var(--amber); font-weight:500;}
+.term-in{display:flex; gap:8px; align-items:center; border-top:1px solid var(--border); padding:8px 14px;}
+.term-in:focus-within{border-top-color:var(--amber);}
+.term-in .p{color:var(--amber);}
+.term-in input{flex:1; min-width:0; background:none; border:0; color:var(--text); font:inherit; outline:none;}
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;}
+.chip{background:none; border:1px solid var(--border); color:var(--muted); font:12px 'IBM Plex Mono',monospace; padding:4px 10px; border-radius:20px; cursor:pointer;}
+.chip:hover{color:var(--amber); border-color:var(--amber);}
+.updated{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); margin:-8px 0 12px;}
 footer{color:var(--muted); font-size:13px; padding-top:20px; border-top:1px solid var(--border);}
 </style>
 </head>
@@ -93,20 +109,20 @@ footer{color:var(--muted); font-size:13px; padding-top:20px; border-top:1px soli
   <nav>
     <strong style="font-family:'IBM Plex Mono',monospace; font-size:14px;">VP</strong>
     <div class="nav-links">
-	
-	<a href="https://vinodpawar.com/blog">Blog</a>      
-      <a href="https://github.com/vinodpawar" target="_blank">GitHub</a>
-      
+      <a href="#about">About</a>
       <div class="nav-dropdown">
         <span class="nav-dropdown-label">Apps</span>
         <ul class="nav-dropdown-menu">
           <li>
             <a href="https://vinodpawar.com/submeter">Submeter Billing Tracker</a>
-            <span class="desc">Tenant Electricity Billing</span>
+            <span class="desc">Splits shared electricity bills across tenants and syncs the record to GitHub.</span>
           </li>
         </ul>
       </div>
-	  
+      <a href="#now">Now</a>
+      <a href="https://vinodpawar.com/blog/">Blog</a>
+      <a href="#contact">Contact</a>
+      <a href="https://github.com/vinodpawar">GitHub</a>
       <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle color theme">🌓</button>
     </div>
   </nav>
@@ -115,6 +131,16 @@ footer{color:var(--muted); font-size:13px; padding-top:20px; border-top:1px soli
     <h1>Vinod Pawar</h1>
     <p class="tagline">Technology enthusiast, curious always..<span class="cursor" aria-hidden="true"></span></p>
   </header>
+
+  <section id="terminal">
+    <div class="ruler"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <h2>terminal</h2>
+    <div class="term">
+      <div class="term-out" id="termOut" role="log" aria-live="polite"></div>
+      <div class="term-in"><span class="p" aria-hidden="true">$</span><input id="termIn" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type a command, for example help"></div>
+    </div>
+    <div class="chips" id="chips"></div>
+  </section>
 
   <section id="about">
     <div class="ruler"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
@@ -125,18 +151,27 @@ footer{color:var(--muted); font-size:13px; padding-top:20px; border-top:1px soli
   <section id="apps">
     <div class="ruler"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
     <h2>apps</h2>
-    <div class="app-row">
-      <div>
-        <div class="app-name"><a href="https://vinodpawar.com/submeter">Submeter Billing Tracker</a></div>
-        <div class="app-desc">Splits electricity bills between tenants and keeps the records on GitHub.</div>
-      </div>
-    </div>
+    <h3 class="project-title"><a href="https://vinodpawar.com/submeter">Submeter Billing Tracker</a></h3>
+    <p class="project-sub">Splits electricity bills between tenants and keeps the records on GitHub.</p>
+    <div class="kv"><div class="k">problem</div><div class="v">Every month I split shared electricity bills by hand and typed a separate WhatsApp message for each tenant.</div></div>
+    <div class="kv"><div class="k">approach</div><div class="v">One static page, it splits the bill by each tenant's meter usage, carries unpaid balances forward, and writes the messages.</div></div>
+    <div class="kv"><div class="k">data</div><div class="v">Records live in a plain text file in a private GitHub repo, reached with a token limited to that one repo.</div></div>
+    <div class="kv"><div class="k">trade-off</div><div class="v">No server, so you enter the token once on each device.</div></div>
+  </section>
+
+  <section id="now">
+    <div class="ruler"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <h2>now</h2>
+    <p class="updated">Updated September 2026</p>
+    <div class="kv"><div class="k">building</div><div class="v">Small tools that take the boredom out of monthly chores, this site, and a little personality.</div></div>
+    <div class="kv"><div class="k">learning</div><div class="v">How AI agents work, and how to use them safely.</div></div>
+    <div class="kv"><div class="k">writing</div><div class="v">My thoughts on technology, on the <a href="https://vinodpawar.com/blog/">blog</a>.</div></div>
   </section>
 
   <section id="contact">
     <div class="ruler"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
     <h2>contact</h2>
-    <p>You can write me message at <a href="mailto:contact@vinodpawar.com">contact@vinodpawar.com</a></p>
+    <p>Email me at <a href="mailto:contact@vinodpawar.com">contact@vinodpawar.com</a></p>
   </section>
 
   <footer>© 2026 Vinod Pawar</footer>
@@ -154,6 +189,38 @@ function toggleTheme(){
     if(saved) applyTheme(saved);
     else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) applyTheme('light');
   }catch(e){}
+})();
+
+(function(){
+  const out=document.getElementById('termOut'), input=document.getElementById('termIn'), chips=document.getElementById('chips');
+  const A=(h,t)=>`<a href="${h}">${t}</a>`;
+  const C={
+    help:()=>'Commands: help, about, apps, now, blog, contact, github, theme, whoami, clear',
+    about:()=>'Technology enthusiast. I love learning new tech and taking systems apart to see how they work.',
+    apps:()=>'Submeter Billing Tracker: '+A('https://vinodpawar.com/submeter','open it')+'\nSplits electricity bills between tenants and keeps the records on GitHub.',
+    now:()=>'Building small tools that remove boring chores.\nLearning how AI agents work.\nWriting on the '+A('https://vinodpawar.com/blog/','blog')+'.',
+    blog:()=>'My thoughts on technology, in my own words: '+A('https://vinodpawar.com/blog/','read the blog'),
+    contact:()=>'Email: '+A('mailto:contact@vinodpawar.com','contact@vinodpawar.com'),
+    github:()=>A('https://github.com/vinodpawar','github.com/vinodpawar'),
+    whoami:()=>'Vinod Pawar. Curious about what is next.',
+    theme:()=>{ toggleTheme(); return 'Theme switched.'; },
+    clear:()=>null
+  };
+  const hist=[]; let hi=0;
+  function line(html,cls){ const d=document.createElement('div'); d.className='term-line'+(cls?' '+cls:''); d.innerHTML=html; out.appendChild(d); out.scrollTop=out.scrollHeight; }
+  function run(raw){
+    const cmd=raw.trim().toLowerCase(); if(!cmd) return;
+    line('<b>$</b> '+cmd.replace(/[<>&]/g,''),'cmd');
+    if(!(cmd in C)){ line('command not found: '+cmd.replace(/[<>&]/g,'')+'. Type help.'); return; }
+    const r=C[cmd](); if(r===null){ out.innerHTML=''; return; } line(r);
+  }
+  input.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){ hist.push(input.value); hi=hist.length; run(input.value); input.value=''; }
+    else if(e.key==='ArrowUp'){ if(hi>0){ hi--; input.value=hist[hi]; e.preventDefault(); } }
+    else if(e.key==='ArrowDown'){ if(hi<hist.length-1){ hi++; input.value=hist[hi]; } else { hi=hist.length; input.value=''; } e.preventDefault(); }
+  });
+  ['help','about','apps','now','blog'].forEach(c=>{ const b=document.createElement('button'); b.className='chip'; b.type='button'; b.textContent=c; b.onclick=()=>run(c); chips.appendChild(b); });
+  line('Welcome. Type <b style="color:var(--amber);font-weight:500">help</b> to see what you can ask, or tap a button below.');
 })();
 </script>
 </body>
