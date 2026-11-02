@@ -1,0 +1,152 @@
+:root {
+  --bg: #ffffff;
+  --text: #111111;
+  --muted: #6b6b6b;
+  --border: #e6e6e6;
+}
+
+[data-theme="dark"] {
+  --bg: #0e0e0e;
+  --text: #f5f5f5;
+  --muted: #9a9a9a;
+  --border: #1f1f1f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.75;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.container {
+  max-width: 760px;
+  margin: auto;
+  padding: 88px 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.subtitle {
+  margin-top: 14px;
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+
+.links {
+  margin: 44px 0;
+}
+
+.links a {
+  margin-right: 22px;
+  text-decoration: none;
+  color: var(--text);
+  position: relative;
+}
+
+.links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 1px;
+  background: var(--text);
+  transition: width 0.25s ease;
+}
+
+.links a:hover::after {
+  width: 100%;
+}
+
+section {
+  margin-top: 72px;
+}
+
+h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+p {
+  max-width: 60ch;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+a {
+  color: var(--text);
+}
+
+footer {
+  margin-top: 110px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+button {
+  background: none;
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+/* Animations */
+
+.fade-in {
+  animation: fade 0.8s ease forwards;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
