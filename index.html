@@ -13,9 +13,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#eef1f8;--ink:#0d1b3e;--muted:#4f5b7a;--line:#cdd4e6;--accent:#2a4bff;--panel:#0d1b3e;--panelink:#dfe6ff;--soft:#e0e6f6;
+:root{color-scheme:light;--bg:#eef1f8;--ink:#0d1b3e;--muted:#4f5b7a;--line:#cdd4e6;--accent:#2a4bff;--panel:#0d1b3e;--panelink:#dfe6ff;--soft:#e0e6f6;
 --sans:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
-:root[data-theme=dark]{--bg:#0a1126;--ink:#e9edfb;--muted:#9aa6c9;--line:#212c52;--accent:#8ea6ff;--panel:#050a1a;--panelink:#dfe6ff;--soft:#121b3a}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.6 var(--sans);padding-top:env(safe-area-inset-top,0)}
@@ -27,7 +26,6 @@ header .wrap{display:flex;justify-content:space-between;align-items:center;paddi
 nav{display:flex;align-items:center;gap:22px;font-size:16px;flex-wrap:wrap;justify-content:flex-end}
 nav a{color:var(--muted);text-decoration:none}
 nav a:hover{color:var(--accent)}
-#theme{background:none;border:1px solid var(--line);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:15px}
 .hero{padding-top:64px;padding-bottom:72px;display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:end}
 h1{font-size:clamp(56px,10.5vw,132px);line-height:.88;letter-spacing:-.055em;font-weight:800;margin:0}
 h1 span{display:block}
@@ -74,7 +72,6 @@ footer{border-top:1px solid var(--line);padding:32px 0 56px;color:var(--muted);f
   section .wrap{gap:16px}
   nav{gap:4px 18px}
   nav a{padding:10px 0}
-  #theme{width:44px;height:44px}
   #in{font-size:16px}
   .chips button{padding:10px 14px}
 }
@@ -88,7 +85,6 @@ footer{border-top:1px solid var(--line);padding:32px 0 56px;color:var(--muted);f
     <a href="#about">About</a><a href="#apps">Apps</a><a href="#now">Now</a>
     <a href="/blog/">Blog</a><a href="#contact">Contact</a>
     <a href="https://github.com/vinodpawar">GitHub</a>
-    <button id="theme" aria-label="Toggle light and dark theme">🌓</button>
   </nav>
 </div></header>
 
@@ -154,31 +150,24 @@ footer{border-top:1px solid var(--line);padding:32px 0 56px;color:var(--muted);f
 <footer><div class="wrap">© <span id="y">2026</span> Vinod Pawar</div></footer>
 
 <script>
-var r=document.documentElement,s=null;
-try{s=localStorage.getItem('theme')}catch(e){}
-if(!s)s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
-r.dataset.theme=s;
-document.getElementById('theme').onclick=function(){s=r.dataset.theme==='dark'?'light':'dark';r.dataset.theme=s;try{localStorage.setItem('theme',s)}catch(e){}};
 document.getElementById('y').textContent=new Date().getFullYear();
 
 var out=document.getElementById('out'),inp=document.getElementById('in');
 var C={
-help:'Commands: whoami, about, apps, now, blog, contact, github, theme, clear',
+help:'Commands: whoami, about, apps, now, blog, contact, github, clear',
 whoami:'Vinod Pawar. Technology enthusiast, curious always.',
 about:"Computers have held my attention for as long as I can remember, and that hasn't faded.",
 apps:'Submeter Billing Tracker: splits shared electricity bills across tenants and syncs the record to GitHub.\n<a href="/submeter">open /submeter</a>',
 now:'building: small tools for monthly chores, this site\nlearning: how AI agents work, and how to use them safely\nwriting: thoughts on technology, on the blog',
 blog:'<a href="/blog/">open /blog</a>',
 contact:'<a href="mailto:contact@vinodpawar.com">contact@vinodpawar.com</a>',
-github:'<a href="https://github.com/vinodpawar">github.com/vinodpawar</a>',
-theme:'Theme switched.'
+github:'<a href="https://github.com/vinodpawar">github.com/vinodpawar</a>'
 };
 function say(h,c){var p=document.createElement('p');if(c)p.className=c;p.innerHTML=h;out.appendChild(p);out.scrollTop=out.scrollHeight}
 function run(v){
   v=v.trim().toLowerCase();if(!v)return;
   say('$ '+v.replace(/</g,'&lt;'),'cmd');
   if(v==='clear'){out.innerHTML='';return}
-  if(v==='theme')document.getElementById('theme').click();
   say(C[v]||'command not found: '+v.replace(/</g,'&lt;')+'. Type help.');
 }
 inp.addEventListener('keydown',function(e){if(e.key==='Enter'){run(inp.value);inp.value=''}});
